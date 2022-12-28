@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'package:todo_mini_project/controller/todo_controller.dart';
 
 class DetailScreen extends StatelessWidget {
-  final int idx;
-  final String todo;
+  late TodoController todoController = Get.find();
 
-  DetailScreen(this.idx, this.todo, {Key? key}) : super(key: key);
+  final Todo todo;
+
+  DetailScreen(this.todo, {Key? key}) : super(key: key);
   TextEditingController updateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    updateController.text = todo;
+    var updateTodo;
+    for (var e in todoController.todoList) {
+      if (e.id == todo.id) {
+        updateTodo = e;
+        break;
+      }
+    }
+    updateController.text = updateTodo.todo;
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(todo),
+          title: Text(updateTodo.todo),
         ),
         body: Padding(
           padding: EdgeInsets.all(16.0),
@@ -30,7 +41,8 @@ class DetailScreen extends StatelessWidget {
                 children: <Widget>[
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context, updateController.text);
+                      todoController.updatePost2(todo.id, updateController.text);
+                      Navigator.pop(context);
                     },
                     child: const Text('수정'),
                   ),

@@ -1,0 +1,2 @@
+const PROTOCOL = "PROTOCOL";
+const DOMAIN = "DOMAIN";
